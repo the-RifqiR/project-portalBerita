@@ -1,0 +1,31 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('kategori_tag', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('category_id')->constrained('kategori')->onDelete('cascade');
+            $table->foreignId('tag_id')->constrained('tag')->onDelete('cascade');
+            $table->timestamps();
+
+            $table->unique(['category_id', 'tag_id']); // supaya tidak dobel
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('kategori_tag');
+    }
+};
